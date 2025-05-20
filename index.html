@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rekod Pemeriksaan Pekerja</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+    .btn-delete {
+      background-color: #e74c3c;
+      color: white;
+      padding: 8px 16px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Rekod Pemeriksaan Kesihatan Pekerja</h2>
+
+<table id="rekodTable">
+  <thead>
+    <tr>
+      <th>Nama</th>
+      <th>Umur</th>
+      <th>Jabatan</th>
+      <th>Tarikh</th>
+      <th>Lokasi</th>
+      <th>Suhu</th>
+      <th>Gejala</th>
+      <th>Tahap</th>
+      <th>Keputusan</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<button class="btn-delete" onclick="padamRekod()">Padam Semua Rekod</button>
+
+<script>
+  // Papar data dari localStorage
+  function loadRekod() {
+    const rekod = JSON.parse(localStorage.getItem('rekodPekerja')) || [];
+    const tbody = document.querySelector("#rekodTable tbody");
+    tbody.innerHTML = "";
+
+    rekod.forEach(data => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${data.nama}</td>
+        <td>${data.umur}</td>
+        <td>${data.jabatan}</td>
+        <td>${data.tarikh}</td>
+        <td>${data.lokasi}</td>
+        <td>${data.suhu}</td>
+        <td>${data.gejala}</td>
+        <td>${data.tahap}</td>
+        <td>${data.keputusan}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  function padamRekod() {
+    if (confirm("Padam semua rekod? Tindakan ini tidak boleh dipulihkan.")) {
+      localStorage.removeItem("rekodPekerja");
+      loadRekod();
+    }
+  }
+
+  // Panggil fungsi papar rekod bila halaman dimuat
+  loadRekod();
+</script>
+
+</body>
+</html>
