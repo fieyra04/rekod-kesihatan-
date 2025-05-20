@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rekod Pemeriksaan Kesihatan</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Rekod Pemeriksaan Kesihatan Pekerja</h2>
+
+  <button onclick="padamRekod()">Padam Semua Rekod</button>
+
+  <table id="rekodTable">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Umur</th>
+        <th>Jabatan</th>
+        <th>Tarikh</th>
+        <th>Lokasi</th>
+        <th>Suhu</th>
+        <th>Gejala</th>
+        <th>Tahap Kesihatan</th>
+        <th>Keputusan</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    function paparRekod() {
+      const rekod = JSON.parse(localStorage.getItem("rekodPekerja")) || [];
+      const tbody = document.querySelector("#rekodTable tbody");
+      tbody.innerHTML = "";
+
+      if (rekod.length === 0) {
+        const row = tbody.insertRow();
+        const cell = row.insertCell(0);
+        cell.colSpan = 9;
+        cell.innerText = "Tiada rekod disimpan.";
+      } else {
+        rekod.forEach(item => {
+          const row = tbody.insertRow();
+          row.insertCell(0).innerText = item.nama;
+          row.insertCell(1).innerText = item.umur;
+          row.insertCell(2).innerText = item.jabatan;
+          row.insertCell(3).innerText = item.tarikh;
+          row.insertCell(4).innerText = item.lokasi;
+          row.insertCell(5).innerText = item.suhu;
+          row.insertCell(6).innerText = item.gejala;
+          row.insertCell(7).innerText = item.tahap;
+          row.insertCell(8).innerText = item.keputusan;
+        });
+      }
+    }
+
+    function padamRekod() {
+      if (confirm("Adakah anda pasti ingin memadam semua rekod?")) {
+        localStorage.removeItem("rekodPekerja");
+        paparRekod();
+      }
+    }
+
+    // Papar rekod semasa halaman dimuat
+    paparRekod();
+  </script>
+
+</body>
+</html>
